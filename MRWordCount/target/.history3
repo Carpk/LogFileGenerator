@@ -1,1 +1,16 @@
 1664422778006:;set _root_.scala.collection.Seq(historyPath := None,shellPrompt := { _ => "" },SettingKey[_root_.scala.Option[_root_.sbt.File]]("sbtStructureOutputFile") in _root_.sbt.Global := _root_.scala.Some(_root_.sbt.file("C:/Users/Invalid/AppData/Local/Temp/sbt-structure.xml")),SettingKey[_root_.java.lang.String]("sbtStructureOptions") in _root_.sbt.Global := "download, resolveClassifiers");apply -cp "C:/Users/Invalid/AppData/Roaming/JetBrains/IntelliJIdea2022.2/plugins/Scala/repo/org/jetbrains/scala/sbt-structure-extractor_2.12_1.0/2021.3.0/sbt-structure-extractor-2021.3.0.jar" org.jetbrains.sbt.CreateTasks;preferScala2;*/*:dumpStructure
+1664746663421:run C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\input\\data.txt C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\output\\data.txt
+1664747094893:quit
+1664747101297:exit
+1664747154945:run C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\input\\data.txt C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\output\\data.txt
+1664747166005:exit
+1664747260849:run C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\input\\data.txt C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\output\\data.txt
+1664747284926:exit
+1664747373714:run C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\input\\data.txt C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\output\\data.txt
+1664748130165:exit
+1664748143351:run C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\input\\data.txt C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\output\\data.txt
+1664748394221:exit
+1664748460759:run C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\input\\data.txt C:\\Users\\Invalid\\Projects\\CS441_Fall2022\\MRWordCount\\src\\main\\resources\\output\\data.txt
+1664748613930:run C:/Users/Invalid/Projects/CS441_Fall2022/MRWordCount/src/main/resources/input/data.txt C:/Users/Invalid/Projects/CS441_Fall2022/MRWordCount/src/main/resources/output/data.txt
+1664749048572:exit
+1664749118075:run C:/Users/Invalid/Projects/CS441_Fall2022/MRWordCount/src/main/resources/input/data.txt C:/Users/Invalid/Projects/CS441_Fall2022/MRWordCount/src/main/resources/output/data.txt
