@@ -4,8 +4,8 @@ ThisBuild / scalaVersion := "3.1.3"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "MRWordCount",
-    idePackagePrefix := Some("edu.uic.cs441")
+    name := "MRWordCount"//,
+    //idePackagePrefix := Some("edu.uic.cs441")
   )
 
 // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common
