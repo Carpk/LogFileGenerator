@@ -1,34 +1,25 @@
+//import org.apache.hadoop.fs.Path
+//import org.apache.hadoop.conf.*
+//import org.apache.hadoop.io.*
+//import org.apache.hadoop.util.*
+//import org.apache.hadoop.mapred.*
 
-
-object TypeDistribution {
-
-
-
-
-
-
-
-
-
+import java.io.IOException
+import java.util
+import scala.jdk.CollectionConverters.*
 
 
 
 
+object TypeCount {
 
 
   def main(args: Array[String]): Unit = {
     println("Hello World!")
 
 
-
-
   }
 }
-
-
-
-
-
 
 
 //object MapReduceProgram:
@@ -65,18 +56,3 @@ object TypeDistribution {
 //    FileInputFormat.setInputPaths(conf, new Path(inputPath))
 //    FileOutputFormat.setOutputPath(conf, new Path(outputPath))
 //    JobClient.runJob(conf)
-
-
-
-
-//class TypeDistribution {
-//  object TypeDistribution {
-//
-//
-//    def main(): Unit = {
-//      lazy val greeting: String = "hello"
-//      println(greeting)
-//
-//    }
-//  }
-//}
