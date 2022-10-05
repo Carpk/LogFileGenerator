@@ -22,7 +22,6 @@ object TypeDistribution {
     val word = new Text
 
     def map(key: Any, value: Text, context: Mapper[Object,Text,Text,IntWritable]#Context): Unit = {
-      println("I'M IN MAP_______________________________________________________________" )
       for (t <- value.toString().split("\\s")) {
         println("PRINTLN: " + t)
 //        word.set(t)
@@ -50,7 +49,7 @@ object TypeDistribution {
     var conf : Configuration = new Configuration
     
     val input = "log/LogFileGenerator.2022-10-03.log"
-    val output = "reports/report.log"
+    val output = "reports/type_dist"
 
     var job = Job.getInstance(conf, "type distribution")
     job.setJarByClass(classOf[TokenizerMapper])

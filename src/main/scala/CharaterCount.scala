@@ -1,4 +1,4 @@
-import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.hadoop.conf.*
 import org.apache.hadoop.io.*
 import org.apache.hadoop.util.*
@@ -10,54 +10,54 @@ import scala.jdk.CollectionConverters.*
 
 
 
-object TypeCount:
+object CharaterCount:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
     private final val one = new IntWritable(1)
     private val txt = new Text()
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-      val info = "INFO"
-      val warn = "WARN"
+      val info  = "INFO"
+      val warn  = "WARN"
       val debug = "DEBUG"
       val error = "ERROR"
 
-      // Then, for each message type you will produce the number of the generated log messages.
-      for (v <- value.toString.split("\\n")) { // no for loops
-        if (info.r.findAllIn(v).nonEmpty) {
-          txt.set("info: ")
-        } else if (warn.r.findAllIn(v).nonEmpty) { // change to const
-          txt.set("warn: ")
-        } else if (debug.r.findAllIn(v).nonEmpty) {
-          txt.set("debug: ")
-        } else if (error.r.findAllIn(v).nonEmpty) {
-          txt.set("error: ")
-        }
+      // number of characters in each log message for each log message type that contain the
+      // highest number of characters in the detected instances of the designated regex pattern
+      for (v <- value.toString.split("\\n")) {
+        val lineArr = v.split("\\s+")
 
-        output.collect(txt, one)
+        if (lineArr.length > 5) {
+          if (info.r.findAllIn(v).nonEmpty) {
+            txt.set("info: ")
+          } else if (warn.r.findAllIn(v).nonEmpty) {
+            txt.set("warn: ")
+          } else if (debug.r.findAllIn(v).nonEmpty) {
+            txt.set("debug: ")
+          } else if (error.r.findAllIn(v).nonEmpty) {
+            txt.set("error: ")
+          }
+
+          output.collect(txt, new IntWritable(lineArr(5).length))
+        }
       }
 
+  
 
   class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:
     override def reduce(key: Text, values: util.Iterator[IntWritable], output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       val sum = values.asScala.reduce((valueOne, valueTwo) => new IntWritable(valueOne.get() + valueTwo.get()))
       output.collect(key,  new IntWritable(sum.get()))
-
-
+  
+  
   def main(args: Array[String]): Unit =
     val conf: JobConf = new JobConf(this.getClass)
     val input = "log/LogFileGenerator.2022-09-22.log"
-    val output = "reports/type_count"
+    val output = "reports/char_count"
 
-//    val dir = new Directory(new File("/path"))
-//    dir.deleteRecursively()
 
-//    val fs = FileSystem.get()
-//    val outPutPath = new Path(output)
-//    fs.delete(outPutPath, true)
-
-    conf.setJobName("TypeCount")
-//    conf.set("fs.defaultFS", "local")
+    conf.setJobName("CharCount")
+    //    conf.set("fs.defaultFS", "local")
     conf.set("mapreduce.job.maps", "5")
     conf.set("mapreduce.job.reduces", "2")
 
@@ -76,16 +76,3 @@ object TypeCount:
     FileOutputFormat.setOutputPath(conf, new Path(output))
     JobClient.runJob(conf)
 
-
-
-
-
-
-//      txt.set("info: ")
-//      output.collect(txt, new IntWritable("INFO".r.findAllIn(log).length))
-//      txt.set("warn: ")
-//      output.collect(txt, new IntWritable("WARN".r.findAllIn(log).length))
-//      txt.set("debug: ")
-//      output.collect(txt, new IntWritable("DEBUG".r.findAllIn(log).length))
-//      txt.set("error: ")
-//      output.collect(txt, new IntWritable("ERROR".r.findAllIn(log).length))
