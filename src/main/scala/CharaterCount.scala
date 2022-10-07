@@ -1,8 +1,10 @@
-import org.apache.hadoop.fs.{FileSystem, Path}
+import HelperUtils.Parameters.*
+import org.apache.hadoop.fs.Path
 import org.apache.hadoop.conf.*
 import org.apache.hadoop.io.*
 import org.apache.hadoop.util.*
 import org.apache.hadoop.mapred.*
+import HelperUtils.{CreateLogger, Parameters}
 
 import java.io.{File, IOException}
 import java.util
@@ -17,30 +19,22 @@ object CharaterCount:
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-      val info  = "INFO"
-      val warn  = "WARN"
-      val debug = "DEBUG"
-      val error = "ERROR"
-
       // number of characters in each log message for each log message type that contain the
       // highest number of characters in the detected instances of the designated regex pattern
-      for (v <- value.toString.split("\\n")) {
+      for (v <- value.toString.split("\\n")) { // no for loops
         val lineArr = v.split("\\s+")
 
-        if (lineArr.length > 5) {
-          if (info.r.findAllIn(v).nonEmpty) {
-            txt.set("info: ")
-          } else if (warn.r.findAllIn(v).nonEmpty) {
-            txt.set("warn: ")
-          } else if (debug.r.findAllIn(v).nonEmpty) {
-            txt.set("debug: ")
-          } else if (error.r.findAllIn(v).nonEmpty) {
-            txt.set("error: ")
-          }
-
-          output.collect(txt, new IntWritable(lineArr(5).length))
+        if (infoTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(infoTag), new IntWritable(lineArr(5).length))
+        } else if (warnTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(warnTag), new IntWritable(lineArr(5).length))
+        } else if (debugTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(debugTag), new IntWritable(lineArr(5).length))
+        } else if (errorTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(errorTag), new IntWritable(lineArr(5).length))
         }
       }
+
 
   
 

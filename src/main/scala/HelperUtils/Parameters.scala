@@ -107,6 +107,11 @@ object Parameters:
   val maxCount = getParam("MaxCount", 0)
   val runDurationInMinutes: Duration = if Parameters.maxCount > 0 then Duration.Inf else getParam("DurationMinutes", 0).minutes
 
+  val infoTag = getParam("Info", "INFO")
+  val warnTag = getParam("Warn", "WARN")
+  val debugTag = getParam("Debug", "DEBUG")
+  val errorTag = getParam("Error", "ERROR")
+
   if Parameters.maxCount > 0 then logger.warn(s"Max count ${Parameters.maxCount} is used to create records instead of timeouts")
   if timePeriod._1 < 0 || timePeriod._2 < 0 then throw new IllegalArgumentException("Timer period cannot be less than zero")
 

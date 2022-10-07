@@ -18,6 +18,7 @@ import scala.util.{Failure, Success, Try}
 
 object GenerateLogData:
   val logger = CreateLogger(classOf[GenerateLogData.type])
+  
 
   //this is the main starting point for the log generator
   //@main def runLogGenerator =
