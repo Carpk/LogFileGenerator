@@ -1,4 +1,3 @@
-import HelperUtils.Parameters.*
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.conf.*
 import org.apache.hadoop.io.*
@@ -11,12 +10,12 @@ import java.util
 import scala.jdk.CollectionConverters.*
 
 
-
 object TypeCount:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
+      import HelperUtils.Parameters.*
 
       // Then, for each message type you will produce the number of the generated log messages.
       for (v <- value.toString.split("\\n")) { // no for loops
@@ -39,14 +38,13 @@ object TypeCount:
 
 
   def main(args: Array[String]): Unit =
+    import HelperUtils.Parameters.*
     val conf: JobConf = new JobConf(this.getClass)
-    val input = "log/LogFileGenerator.2022-09-22.log"
-    val output = "reports/type_count"
 
-
-    conf.setJobName("TypeCount")
-    conf.set("mapreduce.job.maps", "5")
-    conf.set("mapreduce.job.reduces", "2")
+    conf.setJobName(typeCountJob)
+    //    conf.set("fs.defaultFS", "local")
+    conf.set("mapreduce.job.maps", numMapJobs)
+    conf.set("mapreduce.job.reduces", numRedJobs)
 
     conf.setOutputKeyClass(classOf[Text])
     conf.setOutputValueClass(classOf[IntWritable])
@@ -59,8 +57,8 @@ object TypeCount:
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
 
-    FileInputFormat.setInputPaths(conf, new Path(input))
-    FileOutputFormat.setOutputPath(conf, new Path(output))
+    FileInputFormat.setInputPaths(conf, new Path(inputFile))
+    FileOutputFormat.setOutputPath(conf, new Path(outDir + "/" + typeCountJob))
     JobClient.runJob(conf)
 
 

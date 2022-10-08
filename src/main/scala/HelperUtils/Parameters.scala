@@ -97,7 +97,7 @@ object Parameters:
     logger.warn(s"Min string length is set to $MINSTRINGLENGTH")
     MINSTRINGLENGTH
   else minStrLen
-  val maxStringLength = getParam("MaxString", 50)
+  val maxStringLength: ConfigType2Process[Int] = getParam("MaxString", 50)
   val minSymbol = getParam("MinSymbol", 32)
   val maxSymbol = getParam("MaxSymbol", 126)
   val generatingPattern = getParam("Pattern", "([a-c][e-g][0-3]|[A-Z][5-9][f-w]){5,15}")
@@ -107,10 +107,23 @@ object Parameters:
   val maxCount = getParam("MaxCount", 0)
   val runDurationInMinutes: Duration = if Parameters.maxCount > 0 then Duration.Inf else getParam("DurationMinutes", 0).minutes
 
-  val infoTag = getParam("Info", "INFO")
-  val warnTag = getParam("Warn", "WARN")
-  val debugTag = getParam("Debug", "DEBUG")
-  val errorTag = getParam("Error", "ERROR")
+  // Tags the application is searching
+  val infoTag: ConfigType2Process[String] = getParam("Info", "INFO")
+  val warnTag: ConfigType2Process[String] = getParam("Warn", "WARN")
+  val debugTag: ConfigType2Process[String] = getParam("Debug", "DEBUG")
+  val errorTag: ConfigType2Process[String] = getParam("Error", "ERROR")
+
+  // Job Names to be set in JobConf object
+  val typeDistJob: ConfigType2Process[String] = getParam("TypeDistJobName", "TypeDistribution")
+  val charCountJob: ConfigType2Process[String] = getParam("CharCountJobName", "CharCount")
+  val typeCountJob: ConfigType2Process[String] = getParam("TypeCountJobName", "TypeCount")
+  val errorCountJob: ConfigType2Process[String] = getParam("ErrorIntJobName", "ErrorIntervalSort")
+
+  val numMapJobs: ConfigType2Process[String] = getParam("MapJobs", "5")
+  val numRedJobs: ConfigType2Process[String] = getParam("ReduceJobs", "2")
+
+  val inputFile: ConfigType2Process[String] = getParam("InputLogFile", "log/LogFileGenerator.2022-09-22.log")
+  val outDir: ConfigType2Process[String] = getParam("OutDir", "reports")
 
   if Parameters.maxCount > 0 then logger.warn(s"Max count ${Parameters.maxCount} is used to create records instead of timeouts")
   if timePeriod._1 < 0 || timePeriod._2 < 0 then throw new IllegalArgumentException("Timer period cannot be less than zero")

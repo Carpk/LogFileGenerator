@@ -10,31 +10,22 @@ import scala.jdk.CollectionConverters.*
 
 
 
-object TimeIntervalSort:
+object ErrorIntervalSort:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
     private final val one = new IntWritable(1)
     private val txt = new Text()
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-      val info = "INFO"
-      val warn = "WARN"
-      val debug = "DEBUG"
-      val error = "ERROR"
+      import HelperUtils.Parameters.*
 
       // Then, for each message type you will produce the number of the generated log messages.
-      for (v <- value.toString.split("\\n")) { // no for loops
-        if (info.r.findAllIn(v).nonEmpty) {
-          txt.set("info: ")
-        } else if (warn.r.findAllIn(v).nonEmpty) { // change to const
-          txt.set("warn: ")
-        } else if (debug.r.findAllIn(v).nonEmpty) {
-          txt.set("debug: ")
-        } else if (error.r.findAllIn(v).nonEmpty) {
-          txt.set("error: ")
-        }
+      for (v <- value.toString.split("\\n")) { // map, flatmap, foreach, filter
+        val lineArr = v.split("\\s+")
 
-        output.collect(txt, one)
+        if (errorTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(errorTag), new IntWritable(lineArr(5).length))
+        }
       }
 
 
@@ -45,21 +36,13 @@ object TimeIntervalSort:
 
 
   def main(args: Array[String]): Unit =
+    import HelperUtils.Parameters.*
     val conf: JobConf = new JobConf(this.getClass)
-    val input = "log/LogFileGenerator.2022-09-22.log"
-    val output = "reports/type_count"
 
-    //    val dir = new Directory(new File("/path"))
-    //    dir.deleteRecursively()
-
-    //    val fs = FileSystem.get()
-    //    val outPutPath = new Path(output)
-    //    fs.delete(outPutPath, true)
-
-    conf.setJobName("TypeCount")
+    conf.setJobName(errorCountJob)
     //    conf.set("fs.defaultFS", "local")
-    conf.set("mapreduce.job.maps", "5")
-    conf.set("mapreduce.job.reduces", "2")
+    conf.set("mapreduce.job.maps", numMapJobs)
+    conf.set("mapreduce.job.reduces", numRedJobs)
 
     conf.setOutputKeyClass(classOf[Text])
     conf.setOutputValueClass(classOf[IntWritable])
@@ -72,8 +55,8 @@ object TimeIntervalSort:
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
 
-    FileInputFormat.setInputPaths(conf, new Path(input))
-    FileOutputFormat.setOutputPath(conf, new Path(output))
+    FileInputFormat.setInputPaths(conf, new Path(inputFile))
+    FileOutputFormat.setOutputPath(conf, new Path(outDir + "/" + errorCountJob))
     JobClient.runJob(conf)
 
 

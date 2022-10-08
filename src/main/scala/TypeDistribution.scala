@@ -17,28 +17,21 @@ object TypeDistribution:
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-      val info  = "INFO"
-      val warn  = "WARN"
-      val debug = "DEBUG"
-      val error = "ERROR"
+      import HelperUtils.Parameters.*
 
       // number of characters in each log message for each log message type that contain the
       // highest number of characters in the detected instances of the designated regex pattern
-      for (v <- value.toString.split("\\n")) {
+      for (v <- value.toString.split("\\n")) { // no for loops
         val lineArr = v.split("\\s+")
 
-        if (lineArr.length > 5) {
-          if (info.r.findAllIn(v).nonEmpty) {
-            txt.set("info: ")
-          } else if (warn.r.findAllIn(v).nonEmpty) {
-            txt.set("warn: ")
-          } else if (debug.r.findAllIn(v).nonEmpty) {
-            txt.set("debug: ")
-          } else if (error.r.findAllIn(v).nonEmpty) {
-            txt.set("error: ")
-          }
-
-          output.collect(txt, new IntWritable(lineArr(5).length))
+        if (infoTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(infoTag), new IntWritable(lineArr(5).length))
+        } else if (warnTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(warnTag), new IntWritable(lineArr(5).length))
+        } else if (debugTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(debugTag), new IntWritable(lineArr(5).length))
+        } else if (errorTag.r.findAllIn(v).nonEmpty) {
+          output.collect(new Text(errorTag), new IntWritable(lineArr(5).length))
         }
       }
 
@@ -51,15 +44,13 @@ object TypeDistribution:
 
 
   def main(args: Array[String]): Unit =
+    import HelperUtils.Parameters.*
     val conf: JobConf = new JobConf(this.getClass)
-    val input = "log/LogFileGenerator.2022-09-22.log"
-    val output = "reports/char_count"
-
-
-    conf.setJobName("CharCount")
+    
+    conf.setJobName(typeDistJob)
     //    conf.set("fs.defaultFS", "local")
-    conf.set("mapreduce.job.maps", "5")
-    conf.set("mapreduce.job.reduces", "2")
+    conf.set("mapreduce.job.maps", numMapJobs)
+    conf.set("mapreduce.job.reduces", numRedJobs)
 
     conf.setOutputKeyClass(classOf[Text])
     conf.setOutputValueClass(classOf[IntWritable])
@@ -72,7 +63,7 @@ object TypeDistribution:
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
 
-    FileInputFormat.setInputPaths(conf, new Path(input))
-    FileOutputFormat.setOutputPath(conf, new Path(output))
+    FileInputFormat.setInputPaths(conf, new Path(inputFile))
+    FileOutputFormat.setOutputPath(conf, new Path(outDir + "/" + typeDistJob))
     JobClient.runJob(conf)
 
