@@ -12,16 +12,15 @@ import scala.jdk.CollectionConverters.*
 
 object TypeDistribution:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
-    private final val one = new IntWritable(1)
-    private val txt = new Text()
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       import HelperUtils.Parameters.*
+      intervalTime
 
       // number of characters in each log message for each log message type that contain the
       // highest number of characters in the detected instances of the designated regex pattern
-      for (v <- value.toString.split("\\n")) { // no for loops
+      value.toString.split("\\n").foreach(v =>
         val lineArr = v.split("\\s+")
 
         if (infoTag.r.findAllIn(v).nonEmpty) {
@@ -33,7 +32,10 @@ object TypeDistribution:
         } else if (errorTag.r.findAllIn(v).nonEmpty) {
           output.collect(new Text(errorTag), new IntWritable(lineArr(5).length))
         }
-      }
+      )
+
+      
+
 
 
 
@@ -46,7 +48,7 @@ object TypeDistribution:
   def main(args: Array[String]): Unit =
     import HelperUtils.Parameters.*
     val conf: JobConf = new JobConf(this.getClass)
-    
+
     conf.setJobName(typeDistJob)
     //    conf.set("fs.defaultFS", "local")
     conf.set("mapreduce.job.maps", numMapJobs)

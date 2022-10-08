@@ -17,18 +17,18 @@ object TypeCount:
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       import HelperUtils.Parameters.*
 
-      // Then, for each message type you will produce the number of the generated log messages.
-      for (v <- value.toString.split("\\n")) { // no for loops
+      // each message type you will produce the number of the generated log messages.
+      value.toString.split("\\n").foreach(v => {
         if (infoTag.r.findAllIn(v).nonEmpty) {
-          output.collect(new Text(infoTag ), new IntWritable(1))
+          output.collect(new Text(infoTag), new IntWritable(1))
         } else if (warnTag.r.findAllIn(v).nonEmpty) {
-          output.collect(new Text(warnTag ), new IntWritable(1))
+          output.collect(new Text(warnTag), new IntWritable(1))
         } else if (debugTag.r.findAllIn(v).nonEmpty) {
-          output.collect(new Text(debugTag ), new IntWritable(1))
+          output.collect(new Text(debugTag), new IntWritable(1))
         } else if (errorTag.r.findAllIn(v).nonEmpty) {
-          output.collect(new Text(errorTag ), new IntWritable(1))
+          output.collect(new Text(errorTag), new IntWritable(1))
         }
-      }
+      })
 
 
   class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:

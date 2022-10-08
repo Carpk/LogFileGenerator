@@ -98,13 +98,13 @@ object Parameters:
     MINSTRINGLENGTH
   else minStrLen
   val maxStringLength: ConfigType2Process[Int] = getParam("MaxString", 50)
-  val minSymbol = getParam("MinSymbol", 32)
-  val maxSymbol = getParam("MaxSymbol", 126)
-  val generatingPattern = getParam("Pattern", "([a-c][e-g][0-3]|[A-Z][5-9][f-w]){5,15}")
-  val patternFrequency = getParam("Frequency", 0.05d)
-  val randomSeed = getParam("Seed", System.currentTimeMillis())
-  val timePeriod = timeoutRange
-  val maxCount = getParam("MaxCount", 0)
+  val minSymbol: ConfigType2Process[Int] = getParam("MinSymbol", 32)
+  val maxSymbol: ConfigType2Process[Int] = getParam("MaxSymbol", 126)
+  val generatingPattern: ConfigType2Process[String] = getParam("Pattern", "([a-c][e-g][0-3]|[A-Z][5-9][f-w]){5,15}")
+  val patternFrequency: ConfigType2Process[Double] = getParam("Frequency", 0.05d)
+  val randomSeed: ConfigType2Process[Long] = getParam("Seed", System.currentTimeMillis())
+  val timePeriod: (Long, Long) = timeoutRange
+  val maxCount: ConfigType2Process[Int] = getParam("MaxCount", 0)
   val runDurationInMinutes: Duration = if Parameters.maxCount > 0 then Duration.Inf else getParam("DurationMinutes", 0).minutes
 
   // Tags the application is searching
@@ -119,12 +119,17 @@ object Parameters:
   val typeCountJob: ConfigType2Process[String] = getParam("TypeCountJobName", "TypeCount")
   val errorCountJob: ConfigType2Process[String] = getParam("ErrorIntJobName", "ErrorIntervalSort")
 
+  // Number of Map and Reduce jobs to be used
   val numMapJobs: ConfigType2Process[String] = getParam("MapJobs", "5")
   val numRedJobs: ConfigType2Process[String] = getParam("ReduceJobs", "2")
 
-  val inputFile: ConfigType2Process[String] = getParam("InputLogFile", "log/LogFileGenerator.2022-09-22.log")
+  // Directories 
+  val inputFile: ConfigType2Process[String] = getParam("InputLogFile", "log/LogFileGenerator.2022-09-20.log")
   val outDir: ConfigType2Process[String] = getParam("OutDir", "reports")
 
+  // Time intervals for jobs that require
+  val intervalTime: ConfigType2Process[Int] = getParam("timeInterval", 3)
+  
   if Parameters.maxCount > 0 then logger.warn(s"Max count ${Parameters.maxCount} is used to create records instead of timeouts")
   if timePeriod._1 < 0 || timePeriod._2 < 0 then throw new IllegalArgumentException("Timer period cannot be less than zero")
 

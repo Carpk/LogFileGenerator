@@ -21,7 +21,7 @@ object CharaterCount:
       
       // number of characters in each log message for each log message type that contain the
       // highest number of characters in the detected instances of the designated regex pattern
-      for (v <- value.toString.split("\\n")) { // no for loops
+      value.toString.split("\\n").foreach(v => {
         val lineArr = v.split("\\s+")
 
         if (infoTag.r.findAllIn(v).nonEmpty) {
@@ -33,8 +33,7 @@ object CharaterCount:
         } else if (errorTag.r.findAllIn(v).nonEmpty) {
           output.collect(new Text(errorTag), new IntWritable(lineArr(5).length))
         }
-      }
-
+      })
 
   
 

@@ -18,15 +18,18 @@ object ErrorIntervalSort:
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       import HelperUtils.Parameters.*
+      // intervalTime ERROR	88
 
-      // Then, for each message type you will produce the number of the generated log messages.
-      for (v <- value.toString.split("\\n")) { // map, flatmap, foreach, filter
-        val lineArr = v.split("\\s+")
-
+      // time intervals sorted in the descending order that contained most log messages of the type ERROR
+      value.toString.split("\\n").foreach( v=>{
         if (errorTag.r.findAllIn(v).nonEmpty) {
-          output.collect(new Text(errorTag), new IntWritable(lineArr(5).length))
+          val lineArr = v.split("\\s+")
+          output.collect(new Text(errorTag), new IntWritable(1))
         }
-      }
+      })
+
+
+
 
 
   class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:
