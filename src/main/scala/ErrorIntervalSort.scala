@@ -12,24 +12,27 @@ import scala.jdk.CollectionConverters.*
 
 object ErrorIntervalSort:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
-    private final val one = new IntWritable(1)
-    private val txt = new Text()
+    var blockTime = 0
+    var timeBlock = ""
 
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       import HelperUtils.Parameters.*
-      // intervalTime ERROR	88
 
       // time intervals sorted in the descending order that contained most log messages of the type ERROR
       value.toString.split("\\n").foreach( v=>{
+        val s = v.split("\\s+")(0)
+        val logTime = (s.substring(0,2).toInt * 3600) + (s.substring(3,5).toInt * 60) + (s.substring(6,8).toInt)
+
+        if (logTime > blockTime) {
+          blockTime = logTime + (intervalTime * 60)
+          timeBlock = s.substring(0, 12) + intervalTime + "min block"
+        }
+
         if (errorTag.r.findAllIn(v).nonEmpty) {
-          val lineArr = v.split("\\s+")
-          output.collect(new Text(errorTag), new IntWritable(1))
+          output.collect(new Text(timeBlock), new IntWritable(1))
         }
       })
-
-
-
 
 
   class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:

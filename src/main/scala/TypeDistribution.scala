@@ -16,12 +16,18 @@ object TypeDistribution:
     @throws[IOException]
     def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       import HelperUtils.Parameters.*
-      intervalTime
+      var blockTime = 0
 
       // number of characters in each log message for each log message type that contain the
       // highest number of characters in the detected instances of the designated regex pattern
       value.toString.split("\\n").foreach(v =>
         val lineArr = v.split("\\s+")
+        val logTime = lineArr(0).substring(0,2).toInt * 60 + lineArr(0).substring(6,8).toInt
+
+        if (logTime > blockTime) {
+          blockTime = logTime + intervalTime
+
+        }
 
         if (infoTag.r.findAllIn(v).nonEmpty) {
           output.collect(new Text(infoTag), new IntWritable(lineArr(5).length))
@@ -34,7 +40,7 @@ object TypeDistribution:
         }
       )
 
-      
+
 
 
 

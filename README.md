@@ -39,7 +39,8 @@ Character Count Job
 
 `sbt "runMain CharacterCount"`
 
+### Run on AWS 
 
-
+`sbt clean compile assembly`
 
 
