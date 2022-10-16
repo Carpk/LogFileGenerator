@@ -2,7 +2,7 @@
 # Log File Generator
 
 This is a application that utilizes the Hadoop framework and AWS EMR service to distribute tasks
-across multiple nodes for a 
+across multiple nodes for an exercise in distributed computing
 
 ### Requirements
 
@@ -15,15 +15,15 @@ Hadoop was installed using this tutorial:
 
 Download and install the above-mentioned requirements or deploy directly to AWS
 
-To clean the generated files and build a single fat JAR file, run: 
+To clean the generated files and build a single fat JAR file: 
 
 `sbt clean assembly`
 
-The run the JAR file with:
+The run the JAR file with a prompt of which task to execute:
 
 `sbt run`
 
-and select which task you would like to run.
+or run a task directly as described below.
 
 #### Type Distribution Job
 
@@ -51,7 +51,7 @@ The number of characters in each log message for each log message type
 
 ### Run on AWS 
 
-There is a short video showing how to deploy to AWS's EMR service
+Here is a short video showing how to deploy to AWS's EMR service
 
 [https://thekleinbottle.com/log-generator-tut/index.html](https://thekleinbottle.com/log-generator-tut/index.html)
 
