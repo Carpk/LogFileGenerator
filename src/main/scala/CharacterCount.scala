@@ -64,10 +64,8 @@ object CharacterCount:
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
 
-
     FileInputFormat.setInputPaths(conf, new Path(args(0)))
     FileOutputFormat.setOutputPath(conf, new Path(args(1) + "/" + charCountJob))
-
 
     JobClient.runJob(conf)
 
