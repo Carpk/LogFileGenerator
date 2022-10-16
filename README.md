@@ -15,32 +15,44 @@ Hadoop was installed using this tutorial:
 
 Download and install the above-mentioned requirements or deploy directly to AWS
 
-### Type Distribution Job
+To clean the generated files and build a single fat JAR file, run: 
 
-The Type Distribution Job 
+`sbt clean assembly`
+
+The run the JAR file with:
+
+`sbt run`
+
+and select which task you would like to run.
+
+#### Type Distribution Job
+
+Shows the distribution of different types of messages across predefined time intervals
 
 `sbt "runMain TypeDistribution"`
 
-### Error Interval Sort Job
+#### Error Interval Sort Job
 
-The Error Interval Sort Job will 
+Time intervals sorted in the descending order that contained most log messages of the type ERROR
 
 `sbt "runMain ErrorIntervalSort"`
 
-### Type Count Job
+#### Type Count Job
 
-The Type Count Job
+Produces the number of the generated log messages
 
 `sbt "runMain TypeCount"`
 
-### Character Count Job
+#### Character Count Job
 
-Character Count Job 
+The number of characters in each log message for each log message type
 
 `sbt "runMain CharacterCount"`
 
 ### Run on AWS 
 
-`sbt clean compile assembly`
+There is a short video showing how to deploy to AWS's EMR service
+
+[https://thekleinbottle.com/log-generator-tut/index.html](https://thekleinbottle.com/log-generator-tut/index.html)
 
 

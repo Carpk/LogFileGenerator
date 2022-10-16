@@ -3,13 +3,13 @@ import org.apache.hadoop.conf.*
 import org.apache.hadoop.io.*
 import org.apache.hadoop.util.*
 import org.apache.hadoop.mapred.*
-import HelperUtils.{CreateLogger, Parameters}
+//import HelperUtils.{CreateLogger, Parameters}
 
 import java.io.{File, IOException}
 import java.util
 import scala.jdk.CollectionConverters.*
 
-
+class TypeCount
 object TypeCount:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
 
@@ -62,15 +62,3 @@ object TypeCount:
     JobClient.runJob(conf)
 
 
-
-
-
-
-//      txt.set("info: ")
-//      output.collect(txt, new IntWritable("INFO".r.findAllIn(log).length))
-//      txt.set("warn: ")
-//      output.collect(txt, new IntWritable("WARN".r.findAllIn(log).length))
-//      txt.set("debug: ")
-//      output.collect(txt, new IntWritable("DEBUG".r.findAllIn(log).length))
-//      txt.set("error: ")
-//      output.collect(txt, new IntWritable("ERROR".r.findAllIn(log).length))

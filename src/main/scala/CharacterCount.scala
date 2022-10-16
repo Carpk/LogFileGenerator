@@ -1,3 +1,4 @@
+import HelperUtils.Parameters.inputFile
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.conf.*
 import org.apache.hadoop.io.*
@@ -9,8 +10,8 @@ import java.io.{File, IOException}
 import java.util
 import scala.jdk.CollectionConverters.*
 
-
-object CharaterCount:
+class CharacterCount
+object CharacterCount:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
     private final val one = new IntWritable(1)
     private val txt = new Text()
@@ -63,7 +64,10 @@ object CharaterCount:
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
 
-    FileInputFormat.setInputPaths(conf, new Path(inputFile))
-    FileOutputFormat.setOutputPath(conf, new Path(outDir + "/" + charCountJob))
+
+    FileInputFormat.setInputPaths(conf, new Path(args(0)))
+    FileOutputFormat.setOutputPath(conf, new Path(args(1) + "/" + charCountJob))
+
+
     JobClient.runJob(conf)
 

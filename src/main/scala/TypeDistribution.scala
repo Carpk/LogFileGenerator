@@ -9,7 +9,7 @@ import java.util
 import scala.jdk.CollectionConverters.*
 
 
-
+class TypeDistribution
 object TypeDistribution:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
 
@@ -42,9 +42,6 @@ object TypeDistribution:
 
 
 
-
-
-
   class Reduce extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:
     override def reduce(key: Text, values: util.Iterator[IntWritable], output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       val sum = values.asScala.reduce((valueOne, valueTwo) => new IntWritable(valueOne.get() + valueTwo.get()))
@@ -71,7 +68,7 @@ object TypeDistribution:
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, IntWritable]])
 
-    FileInputFormat.setInputPaths(conf, new Path(inputFile))
-    FileOutputFormat.setOutputPath(conf, new Path(outDir + "/" + typeDistJob))
+    FileInputFormat.setInputPaths(conf, new Path(inputFile)) // args(0)
+    FileOutputFormat.setOutputPath(conf, new Path(outDir + "/" + typeDistJob)) // args(1)
     JobClient.runJob(conf)
 

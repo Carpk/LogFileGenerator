@@ -9,7 +9,7 @@ import java.util
 import scala.jdk.CollectionConverters.*
 
 
-
+class ErrorIntervalSort
 object ErrorIntervalSort:
   class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
     var blockTime = 0
