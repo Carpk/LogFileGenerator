@@ -21,7 +21,7 @@ To clean the generated files and build a single fat JAR file:
 
 The run the JAR file with a prompt of which task to execute:
 
-`sbt run`
+`sbt "run log/LogFileGenerator.2022-09-20.log reports"`
 
 or run a task directly as described below.
 
@@ -29,25 +29,25 @@ or run a task directly as described below.
 
 Shows the distribution of different types of messages across predefined time intervals
 
-`sbt "runMain TypeDistribution"`
+`sbt "runMain TypeDistribution log/LogFileGenerator.2022-09-20.log reports"`
 
 #### Error Interval Sort Job
 
 Time intervals sorted in the descending order that contained most log messages of the type ERROR
 
-`sbt "runMain ErrorIntervalSort"`
+`sbt "runMain ErrorIntervalSort log/LogFileGenerator.2022-09-20.log reports"`
 
 #### Type Count Job
 
 Produces the number of the generated log messages
 
-`sbt "runMain TypeCount"`
+`sbt "runMain TypeCount log/LogFileGenerator.2022-09-20.log reports"`
 
 #### Character Count Job
 
 The number of characters in each log message for each log message type
 
-`sbt "runMain CharacterCount"`
+`sbt "runMain CharacterCount log/LogFileGenerator.2022-09-20.log reports"`
 
 ### Run on AWS 
 
