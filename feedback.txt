@@ -5,7 +5,7 @@ Grading Evaluation:
 - only some basic map/reduce or CORBA examples from some repos are given and nothing else is done: zero grade;
 	* fully functional: -0%
 - having less than five unit and/or integration scalatests: up to 10% lost;
-	* tests present: -0%
+	* tests present: -1%
 - missing comments and explanations from your program: up to 10% lost;
 	* comments present: -0%
 - logging is not used in your programs: up to 5% lost;
@@ -19,10 +19,16 @@ Grading Evaluation:
 - no instructions in README.md on how to install and run your program: up to 10% lost;
 	* instructions present: -0%
 - the program crashes without completing the core functionality: up to 15% lost;
-	* program doesn't compile: -15%
+	* program doesn't compile: -2%
 - the documentation exists but it is insufficient to understand your program design and models and how you assembled and deployed all components of your mappers and reducers: up to 15% lost;
-	* documentation exists: -0%
+	* documentation exists: -1.5%
 
-The code runs into compilation error due to missing plugins.sbt file in project folder
-After adding that too the compilation fails with java.lang.ArrayIndexOutOfBoundsException: 0
-Final Grade: 0%
+Final Grade: 11.5%
+
+Comments:
+
+Good job!
+
+Missing plugins.sbt = -1.5
+Incorrect run instructions in readme = -2
+test cases don't test the functionality, neither the config constants = -1.5
