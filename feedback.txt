@@ -23,7 +23,7 @@ Grading Evaluation:
 - the documentation exists but it is insufficient to understand your program design and models and how you assembled and deployed all components of your mappers and reducers: up to 15% lost;
 	* documentation exists: -1.5%
 
-Final Grade: 11.5%
+Final Grade: 10.5%
 
 Comments:
 
